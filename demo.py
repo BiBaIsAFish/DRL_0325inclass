@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 class BanditSimulation:
-    def __init__(self, true_probs, steps=100000, initial_money=10000):
+    def __init__(self, true_probs, steps=10000, initial_money=10000):
         self.true_probs = true_probs
         self.k = len(true_probs)
         self.steps = steps
@@ -97,10 +97,9 @@ def main():
     st.title("🎰 Multi-Armed Bandit Algorithms Comparison")
     
     true_probs = [0.8, 0.7, 0.5]
-    steps = 100000
-    num_runs = 10 # 在網頁上為了避免等待太久，我先將平均次數調降為 10 次，你可以視情況調回 50
+    steps = 10000
+    num_runs = 10 
     
-    # 使用 st.spinner 讓使用者知道程式正在運算
     with st.spinner(f'Running simulations ({num_runs} runs)... Please wait.'):
         results = {
             "A/B Testing (Random)": np.zeros(steps),
@@ -134,7 +133,6 @@ def main():
     ax.set_ylabel('Average Reward')
     ax.legend(loc='lower right')
     
-    # 將圖表輸出到 Streamlit
     st.pyplot(fig)
 
     # --- 2. 製作並顯示資料表格 ---
@@ -159,15 +157,12 @@ def main():
         table_data.append({
             "Method": info['name'],
             "Exploration Style": info['style'],
-            "Total Reward": int(total_reward), # 轉成整數比較好看
-            "Regret": int(regret),             # 轉成整數比較好看
+            "Total Reward": int(total_reward), 
+            "Regret": int(regret),             
             "Notes": info['notes']
         })
         
-    # 轉換成 Pandas DataFrame 並顯示
     df = pd.DataFrame(table_data)
-    
-    # 隱藏 DataFrame 預設的 index (0, 1, 2...) 讓表格看起來更乾淨
     st.dataframe(df, hide_index=True, use_container_width=True)
 
 if __name__ == "__main__":
